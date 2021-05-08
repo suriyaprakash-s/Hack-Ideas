@@ -23,14 +23,14 @@ router.get('/me', auth, async(req, res)=>{
       }
 });
 router.post('/', auth, async (req, res)=>{
-    const {title, description, tags, start, end}= req.body;
+    const {title, description, tags, start, duration}= req.body;
     try{
         const newIdea = new Idea({
             title: title,
             description: description,
             tags: tags,
             startDate: start,
-            completionDate: end,
+            duration: duration,
             votes: [],
             createdBy: req.user
         });
@@ -44,7 +44,7 @@ router.post('/', auth, async (req, res)=>{
     }
 });
 router.put('/:id', auth, async(req, res)=>{
-    const {title, description, tags, start, end, votes}= req.body;
+    const {title, description, tags, start, duration, votes}= req.body;
     try{
         const idea = await Idea.findById(req.params.id);
         if(!idea)
@@ -55,7 +55,7 @@ router.put('/:id', auth, async(req, res)=>{
             idea.description= description,
             idea.tags= tags,
             idea.startDate= start,
-            idea.completionDate= end,
+            idea.duration= duration,
             idea.votes= votes
             await idea.save()
             return res.json(idea);

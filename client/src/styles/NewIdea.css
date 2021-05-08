@@ -1,0 +1,10 @@
+.new-idea{
+    text-align: left;
+    padding: 0px 20px;
+}
+.new-idea .time{
+    margin: 20px 0px !important;
+}
+.new-idea .duration input{
+    width: 64px !important ;
+}

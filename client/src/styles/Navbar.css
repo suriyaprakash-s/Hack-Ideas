@@ -1,0 +1,17 @@
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height:50px;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    background-color: darkslategray;
+    color: white;
+    z-index: 3;
+}
+.navbar h3, .navbar h5{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: initial;
+}

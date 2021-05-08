@@ -17,8 +17,8 @@ const IdeaSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    completionDate:{
-        type: Date,
+    duration:{
+        type: String,
         required:true
     },
     createdBy:{
