@@ -11,3 +11,6 @@
 .detail-time{
     display: flex;
 }
+.detail-content{
+    padding-left: 42px;
+}

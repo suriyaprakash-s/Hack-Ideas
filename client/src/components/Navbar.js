@@ -1,13 +1,18 @@
 import React from 'react';
 import '../styles/Navbar.css';
+import {connect} from 'react-redux';
+import {logout} from '../actions';
 
-const Navbar =()=>{
+const Navbar =({logout, user})=>{
+    
     return(
         <div className="navbar">
             <h3>Hack Ideas</h3>
-            <h5>Logout</h5>
+            {user && <h5 onClick={logout} className="logout">Logout</h5>}
         </div>
     );
 };
-
-export default Navbar;
+const mapStateToProps =(state)=>{
+    return {user:state.user}
+};
+export default connect(mapStateToProps, {logout})(Navbar);

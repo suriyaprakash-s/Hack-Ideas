@@ -1,35 +1,60 @@
 import React from 'react';
 import {Label, Button, Icon} from 'semantic-ui-react';
+import {connect} from 'react-redux'
+import {vote as voteIdea} from '../actions'
 import '../styles/Detail.css'
 
-const Detail = ({title, startDate, duration, votes})=>{
-    const tags=['feature', 'tech'];
-    const description= "The web is a powerful place. Cliché, we know. But true nonetheless. Since no one can argue with kindness, we wanted to create a challenge that would harness that power and result in web apps for a good cause.So join us. Build a web app that will make the world a better place. It can be an app that impacts the world or a local community. Goodness no matter the scope is good.We don’t want to leave you hanging. We understand that sometimes coming up with the app idea is actually the hardest part.  So we’re sharing a few of our ideas. Use any or all of them. Or come up with your own. Apps will be judged on their merit – choosing one of our ideas will not help or hinder your chances of winning."
+const Detail = ({id, ideaList, goBack, voteIdea, user})=>{
+    React.useEffect(()=>{
+        setIdea(ideaList.ideas.find((idea)=>idea._id === id));
+    },[ideaList]);
+    const [idea, setIdea] = React.useState({title:'', 
+    description:'',
+     tags:[],
+     startDate:'',
+     duration:'',
+     votes:[]
+    });
+    var allowVote = (idea.votes.findIndex((voteId)=> voteId===user)===-1);
+    const onVote =()=>{
+        if(allowVote)
+        {
+            voteIdea(id);
+            allowVote = false;
+        }
+    }; 
     return(
         <React.Fragment>
-            <span className='detail-title detail-padding'><h3>{title}</h3>
+            <span className='detail-title detail-padding'>
+                <h3><Button icon="arrow left" basic style={{boxShadow:'none'}} onClick={goBack}/>{idea.title}</h3>
                 <Button as='div' labelPosition='right'>
-                    <Button icon>
+                    <Button icon onClick={onVote}>
                         <Icon name='thumbs up' />
                         Votes
                     </Button>
                     <Label as='a' basic pointing='left'>
-                        {votes}
+                        {idea.votes.length}
                     </Label>
                 </Button>
             </span>
-            <p className='detail-desc'>{description}</p>
-            <div className='detail-padding'>
-                {tags.map((tag) => (
-                    <Label color={'grey'} key={tag}>
-                        {tag}
-                    </Label>
-                ))}
+            <div className="detail-content">
+                <p className='detail-desc'>{idea.description}</p>
+                <div className='detail-padding'>
+                    {idea.tags.map((tag, index) => (
+                        <Label color={'grey'} key={index}>
+                            {tag}
+                        </Label>
+                    ))}
+                </div>
+                <span className='detail-time detail-padding'> <h5>Start Time:</h5>&nbsp;{new Date(idea.startDate).toLocaleString()} </span>
+                <span className='detail-time detail-padding'> <h5>Duration:</h5>&nbsp;{`${idea.duration.split(':').join('hrs ')}mins`} </span>
             </div>
-            <span className='detail-time detail-padding'> <h5>Start Time:</h5>&nbsp;{new Date(startDate).toLocaleString()} </span>
-            <span className='detail-time detail-padding'> <h5>Duration:</h5>&nbsp;{duration} </span>
         </React.Fragment>
     );
 };
 
-export default Detail;
+const mapStateToProps = (state)=>{
+    return {ideaList:state.ideaList,
+            user:state.user}
+}
+export default connect(mapStateToProps, {voteIdea})(Detail);

@@ -1,16 +1,27 @@
+import React from 'react'
+import {connect} from 'react-redux';
 import './App.css';
 import Landing from './components/Landing';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
+import setAuthToken from './utils/setAuthToken';
+import {loadUser} from './actions'
 
-function App() {
+function App({user, loadUser}) {
+  React.useEffect(()=>{
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      loadUser();
+    }
+  },[]);
   return (
     <div>
       <Navbar/>
-      <Login/>
-      {/* <Landing/> */}
+      {user ? <Landing/>:<Login/>}
     </div>
   );
 }
-
-export default App;
+const mapStateToProps =(state)=>{
+  return {user: state.user};
+}; 
+export default connect(mapStateToProps, {loadUser})(App);

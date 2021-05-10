@@ -1,8 +1,10 @@
 import React from 'react';
 import {Form,} from 'semantic-ui-react'
 import '../styles/Login.css'
+import {connect} from 'react-redux';
+import {login} from '../actions';
 
-const Login =()=>{
+const Login =(props)=>{
     const [requestOtp, setRequestOtp]= React.useState(false);
     const [empId, setEmpId]= React.useState('');
     const [error, setError]= React.useState(false);
@@ -36,11 +38,11 @@ const Login =()=>{
             {requestOtp && <Form.Group>
                 <Form.Input inline icon="envelope" iconPosition="left"
                     className=".input" placeholder='One Time Password' type="password"/>
-                <Form.Button>Verify OTP</Form.Button>
+                <Form.Button onClick={()=>props.login(empId)}>Verify OTP</Form.Button>
             </Form.Group>}
             </Form>
         </div>
     );
 };
 
-export default Login;
+export default connect(null, {login}) (Login);

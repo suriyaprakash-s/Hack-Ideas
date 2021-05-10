@@ -23,13 +23,13 @@ router.get('/me', auth, async(req, res)=>{
       }
 });
 router.post('/', auth, async (req, res)=>{
-    const {title, description, tags, start, duration}= req.body;
+    const {title, description, tags, startDate, duration}= req.body;
     try{
         const newIdea = new Idea({
             title: title,
             description: description,
             tags: tags,
-            startDate: start,
+            startDate: startDate,
             duration: duration,
             votes: [],
             createdBy: req.user
