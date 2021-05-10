@@ -7,7 +7,8 @@ import '../styles/Detail.css'
 const Detail = ({id, ideaList, goBack, voteIdea, user})=>{
     React.useEffect(()=>{
         setIdea(ideaList.ideas.find((idea)=>idea._id === id));
-    },[ideaList]);
+    },[ideaList,id]);
+
     const [idea, setIdea] = React.useState({title:'', 
     description:'',
      tags:[],
@@ -15,6 +16,8 @@ const Detail = ({id, ideaList, goBack, voteIdea, user})=>{
      duration:'',
      votes:[]
     });
+
+    //Make sure for an idea user can vote only once
     var allowVote = (idea.votes.findIndex((voteId)=> voteId===user)===-1);
     const onVote =()=>{
         if(allowVote)

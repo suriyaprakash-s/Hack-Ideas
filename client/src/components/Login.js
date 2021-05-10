@@ -32,7 +32,7 @@ const Login =(props)=>{
             <Form error>
             <Form.Group inline>
                 <Form.Input icon="user" iconPosition="left" className=".input" error={error}
-                    placeholder='Enter your Employee ID' value={empId} onChange={onChangeEmpId}/>
+                    placeholder="Enter your Employee ID "value={empId} onChange={onChangeEmpId}/>
                 {!requestOtp && <Form.Button onClick={()=>handleOtpRequest()}>Send OTP</Form.Button>}
             </Form.Group>
             {requestOtp && <Form.Group>

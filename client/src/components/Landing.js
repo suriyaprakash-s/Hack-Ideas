@@ -4,14 +4,16 @@ import {connect} from 'react-redux'
 import {getAllIdeas, getUserIdeas} from '../actions'
 import '../styles/Landing.css';
 import ListIdea from './ListIdea';
-import NewIdea from './NewIdea';
+import NewIdea from './Idea';
 
 const Landing =({allIdeaList, userIdeaList, getAllIdeas, getUserIdeas})=>{
     const getAllIdeaList = ()=>{
+      //if list is not fetched, request
       if(allIdeaList.loading===true)
         getAllIdeas();
     };
     const getUserIdeaList = ()=>{
+        //if list is not fetched, request
       if(userIdeaList.loading===true)
         getUserIdeas();
     }

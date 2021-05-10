@@ -6,8 +6,8 @@ export const login = (user)=> async dispatch=>{
     const body = {user:user}
     try {
         const res = await api.post('/auth', body);
-        dispatch({type: "LOGIN_SUCCESS", payload: body});
         setAuthToken(res.data);
+        dispatch({type: "LOGIN_SUCCESS", payload: body});
         dispatch(getUserIdeas());
     } catch (error) {
         console.log(error);
@@ -49,7 +49,7 @@ export const getUserIdeas = ()=>async dispatch=>{
 
 export const createIdea = (body)=>async dispatch=>{
     try {
-        const res = await api.post('/idea/', body);
+         await api.post('/idea/', body);
         dispatch(setAlert("Idea created successfully!!!", "success"))
         dispatch(getAllIdeas());
         dispatch(getUserIdeas());
@@ -62,7 +62,7 @@ export const createIdea = (body)=>async dispatch=>{
 
 export const updateIdea = (body, id)=>async dispatch=>{
     try {
-        const res = await api.put(`/idea/${id}`, body);
+        await api.put(`/idea/${id}`, body);
         dispatch(setAlert("Idea updated successfully!!!", "success"))
         dispatch(getAllIdeas());
         dispatch(getUserIdeas());
@@ -74,7 +74,7 @@ export const updateIdea = (body, id)=>async dispatch=>{
 
 export const deleteIdea = (id)=>async dispatch=>{
     try {
-        const res = await api.delete(`/idea/${id}`);
+        await api.delete(`/idea/${id}`);
         dispatch(getAllIdeas());
         dispatch(getUserIdeas());
         //alert
@@ -87,7 +87,7 @@ export const deleteIdea = (id)=>async dispatch=>{
 
 export const vote = (id)=>async dispatch=>{
     try {
-        const res = await api.post(`/idea/vote/${id}`);
+         await api.post(`/idea/vote/${id}`);
         dispatch(getAllIdeas());
         dispatch(getUserIdeas());
     } catch (error) {

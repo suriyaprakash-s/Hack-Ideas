@@ -4,7 +4,7 @@ import {Table, Pagination, Button, Loader} from 'semantic-ui-react';
 import {connect} from 'react-redux'
 import Detail from './Detail';
 import {getAllIdeas, deleteIdea} from '../actions';
-import NewIdea from './NewIdea';
+import Idea from './Idea';
 import { Fragment } from 'react';
 import Alert from './Alert';
 
@@ -12,11 +12,13 @@ const ListIdea=({ideaList, deleteIdea, mode})=>{
   const {ideas, loading} = ideaList;
   const row = mode==="all"?9:7;   
 
+  //When ever list get changed, table data should rerender
   React.useEffect(()=>{
     setPage({activePage: 1,totalPages: _.ceil(ideas.length/row)});
     setContent({...content, data: _.sortBy(ideas, ['title']).slice((page.activePage-1)*row, row*page.activePage)});
   }, [ideaList]);
 
+  //If mode changes, set default value
   React.useEffect(()=>{
     setShowDetail({show: false, id: null});
     setShowEdit({show: false, idea: null});
@@ -58,7 +60,7 @@ const ListIdea=({ideaList, deleteIdea, mode})=>{
   }
 
   const sort=(target)=>{
-    if(target == "votes")
+    if(target === "votes")
       target=`${target}.length`
       setContent({
             column: target,
@@ -83,7 +85,7 @@ const ListIdea=({ideaList, deleteIdea, mode})=>{
   }
 
   const getEdit=()=>{
-    return <NewIdea idea={showEdit.idea} mode="edit" goBack={()=>setShowEdit({...showEdit, show:false})}/>
+    return <Idea idea={showEdit.idea} mode="edit" goBack={()=>setShowEdit({...showEdit, show:false})}/>
   }
 
   const getNoIdeaText=()=>{
