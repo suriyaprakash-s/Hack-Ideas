@@ -44,7 +44,7 @@ router.post('/', auth, async (req, res)=>{
     }
 });
 router.put('/:id', auth, async(req, res)=>{
-    const {title, description, tags, start, duration, votes}= req.body;
+    const {title, description, tags, startDate, duration, votes}= req.body;
     try{
         const idea = await Idea.findById(req.params.id);
         if(!idea)
@@ -54,7 +54,7 @@ router.put('/:id', auth, async(req, res)=>{
             idea.title= title,
             idea.description= description,
             idea.tags= tags,
-            idea.startDate= start,
+            idea.startDate= startDate,
             idea.duration= duration,
             idea.votes= votes
             await idea.save()

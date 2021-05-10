@@ -8,7 +8,7 @@ const Navbar =({logout, user})=>{
     return(
         <div className="navbar">
             <h3>Hack Ideas</h3>
-            {user && <h5 onClick={logout} className="logout">Logout</h5>}
+            {user && <span>Employee:{user}<h5 onClick={logout} className="logout">Logout</h5></span>}
         </div>
     );
 };

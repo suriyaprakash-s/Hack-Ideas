@@ -30,7 +30,7 @@ const Landing =({allIdeaList, userIdeaList, getAllIdeas, getUserIdeas})=>{
         },
         {
             menuItem: 'About us',
-            render: () => <Tab.Pane attached={false}>About us</Tab.Pane>,
+            render: () => <Tab.Pane attached={false}>HackIdeas is a for a group of programmers to work together on a collaborative project. Most hack ideas are competitions where several teams are competing to create prototypes that innovate on a theme or improve upon an existing project.</Tab.Pane>,
         }  
       ]
     return(

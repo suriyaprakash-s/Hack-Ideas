@@ -39,15 +39,17 @@ const Detail = ({id, ideaList, goBack, voteIdea, user})=>{
             </span>
             <div className="detail-content">
                 <p className='detail-desc'>{idea.description}</p>
-                <div className='detail-padding'>
-                    {idea.tags.map((tag, index) => (
+                {idea.tags.length>0?<div className='detail-padding'>
+                    {idea.tags.split(',').map((tag, index) => (
                         <Label color={'grey'} key={index}>
                             {tag}
                         </Label>
                     ))}
-                </div>
+                </div>:null}
                 <span className='detail-time detail-padding'> <h5>Start Time:</h5>&nbsp;{new Date(idea.startDate).toLocaleString()} </span>
                 <span className='detail-time detail-padding'> <h5>Duration:</h5>&nbsp;{`${idea.duration.split(':').join('hrs ')}mins`} </span>
+                <Button negative basic onClick={goBack}>Back</Button>
+
             </div>
         </React.Fragment>
     );

@@ -1,0 +1,10 @@
+.alert{
+    position:sticky;
+    bottom:1px;
+}
+.alert .content{
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

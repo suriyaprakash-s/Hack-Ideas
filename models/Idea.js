@@ -10,8 +10,7 @@ const IdeaSchema = new mongoose.Schema({
         required: true
     },
     tags:{
-        type: [String],
-        required: true
+        type: String
     },
     startDate:{
         type: Date,

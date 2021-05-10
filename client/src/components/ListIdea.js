@@ -5,47 +5,64 @@ import {connect} from 'react-redux'
 import Detail from './Detail';
 import {getAllIdeas, deleteIdea} from '../actions';
 import NewIdea from './NewIdea';
+import { Fragment } from 'react';
+import Alert from './Alert';
 
 const ListIdea=({ideaList, deleteIdea, mode})=>{
   const {ideas, loading} = ideaList;
+  const row = mode==="all"?9:7;   
 
   React.useEffect(()=>{
-    setContent({...content, data: _.sortBy(ideas, ['title']).slice((page.activePage-1)*7, 7*page.activePage)});
+    setPage({activePage: 1,totalPages: _.ceil(ideas.length/row)});
+    setContent({...content, data: _.sortBy(ideas, ['title']).slice((page.activePage-1)*row, row*page.activePage)});
   }, [ideaList]);
+
   React.useEffect(()=>{
     setShowDetail({show: false, id: null});
     setShowEdit({show: false, idea: null});
+    setPage({activePage: 1,totalPages: _.ceil(ideas.length/row)});
+    setContent({
+      column: 'title',
+      data: _.sortBy(ideas, ['title']).slice(0, row),
+      direction: 'ascending'
+  })
   }, [mode]);
+
   const [page, setPage]=React.useState({
       activePage: 1,
-      totalPages: _.ceil(ideas.length/7)
+      totalPages: _.ceil(ideas.length/row)
   });
+
   const [content, setContent]= React.useState({
       column: 'title',
-      data: _.sortBy(ideas, ['title']).slice((page.activePage-1)*7, 7*page.activePage),
+      data: _.sortBy(ideas, ['title']).slice((page.activePage-1)*row, row*page.activePage),
       direction: 'ascending'
   });
+
   const [showDetail, setShowDetail] = React.useState({
     show: false,
     id: null
   });
+
   const [showEdit, setShowEdit] = React.useState({
     show: false,
     info: null
   });
-  const { column, data, direction } = content;     
+
+  const { column, data, direction } = content;
   const handleChangePage=(event, data)=>{
       setPage({...page, activePage:data.activePage });
       setContent({...content,
           data: _.orderBy(ideas, [column],[direction === 'ascending' ? 'asc' : 'desc'])
-          .slice((data.activePage-1)*7,7*data.activePage)})
+          .slice((data.activePage-1)*row,row*data.activePage)})
   }
+
   const sort=(target)=>{
     if(target == "votes")
       target=`${target}.length`
       setContent({
             column: target,
-            data: _.orderBy(ideas, [target],[direction === 'ascending' ? 'desc' : 'asc']).slice((page.activePage-1)*7,7*page.activePage),
+            data: _.orderBy(ideas, [target],[direction === 'ascending' ? 'desc' : 'asc']).slice((page.activePage-1)*row,row*page.activePage),
             direction: direction === 'ascending' ? 'descending' : 'ascending'
           });
     }
@@ -60,20 +77,24 @@ const ListIdea=({ideaList, deleteIdea, mode})=>{
       <span style={{cursor:'pointer'}} onClick={()=>setShowDetail({show:true, id:id})}>{title}</span>
     );
   }
+
   const getDetail=()=>{
     return <Detail id={showDetail.id} goBack={()=>setShowDetail({...showDetail, show:false})}/>
   }
+
   const getEdit=()=>{
     return <NewIdea idea={showEdit.idea} mode="edit" goBack={()=>setShowEdit({...showEdit, show:false})}/>
   }
+
   const getNoIdeaText=()=>{
     if(mode==="manage")
       return <h4 style={{textAlign:'center'}}>You have not created any ideas, create to manage</h4>
     else
       return <h4 style={{textAlign:'center'}}>No Ideas available at the moment, come back later</h4>
   }
+
   const getTable = ()=>{
-    return(ideas.length ===0 ? getNoIdeaText():<Table sortable celled>
+    return(ideas.length ===0 ? getNoIdeaText():<Fragment><Table sortable celled>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell
@@ -120,22 +141,26 @@ const ListIdea=({ideaList, deleteIdea, mode})=>{
           </Table.Row>
         ))}
       </Table.Body>
-      {ideas.length>7 &&<Table.Footer>
+      {ideas.length>row &&<Table.Footer>
         <Table.Row>
-            <Table.HeaderCell colSpan='4' key='page'>
+            <Table.HeaderCell colSpan={mode==="all"?4:5} key='page'>
                 <Pagination totalPages={page.totalPages} activePage={page.activePage} 
                     onPageChange={handleChangePage}
                 style={{float:'right'}}/>
             </Table.HeaderCell>
         </Table.Row>
       </Table.Footer>}
-    </Table>);
+    </Table>
+    <Alert/>
+    </Fragment>
+    );
   }
   return (
-    loading?<Loader active content="Loading"/>
-            : mode==="manage" ?  showEdit.show?  getEdit():getTable()
-                        : showDetail.show?  getDetail(): getTable()
-                   
+    <Fragment>
+      {loading?<Loader active content="Loading"/>
+              : mode==="manage" ?  showEdit.show?  getEdit():getTable()
+                          : showDetail.show?  getDetail(): getTable()}
+    </Fragment>                  
 );
 };
 
