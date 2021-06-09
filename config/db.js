@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async()=>{
     try {
-        await mongoose.connect('mongodb+srv://General:zTabnplymkoqcYto@network-app.r8bep.mongodb.net/HackIdeas?retryWrites=true&w=majority',
+        await mongoose.connect('mongodb+srv://url',
          {useNewUrlParser:true, useUnifiedTopology: true});
         console.log("MongoDB is connected...");
     } catch (error) {
